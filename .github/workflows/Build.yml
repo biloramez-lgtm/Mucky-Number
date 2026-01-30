@@ -1,0 +1,18 @@
+    steps:
+      - name: Force Fix Gradlew
+        run: |
+          # Remove broken gradlew
+          rm -f gradlew
+          # Recreate clean gradlew for Linux
+          cat <<EOF > gradlew
+          #!/usr/bin/env bash
+          APP_HOME=\$(dirname "\$0")
+          CLASSPATH=\$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+          exec java -cp "\$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "\$@"
+          EOF
+          # Grant execution permissions
+          chmod +x gradlew
+          echo "New gradlew file created successfully."
+
+      - name: Build Release Bundle
+        run: ./gradlew bundleRelease
