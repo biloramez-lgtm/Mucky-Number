@@ -1,23 +1,14 @@
 // 1. ملف الجذر (Project-level build.gradle)
 buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
+    // تم حذف قسم repositories من هنا لمنع التعارض
     dependencies {
-        // تأكد من استخدام إصدار متوافق مع Android Studio لديك، مثلاً 8.2.0
+        // تأكد من استخدام إصدار متوافق مع Android Studio لديك
         classpath 'com.android.tools.build:gradle:8.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
