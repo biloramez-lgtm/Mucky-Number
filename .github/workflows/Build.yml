@@ -1,18 +1,36 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Force Fix Gradlew
         run: |
-          # Remove broken gradlew
           rm -f gradlew
-          # Recreate clean gradlew for Linux
           cat <<EOF > gradlew
           #!/usr/bin/env bash
           APP_HOME=\$(dirname "\$0")
           CLASSPATH=\$APP_HOME/gradle/wrapper/gradle-wrapper.jar
           exec java -cp "\$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "\$@"
           EOF
-          # Grant execution permissions
           chmod +x gradlew
           echo "New gradlew file created successfully."
 
       - name: Build Release Bundle
         run: ./gradlew bundleRelease
+
+      - name: Upload Release Bundle (AAB)
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-bundle
+          # المسار الافتراضي لملفات الـ Bundle في أندرويد
+          path: app/build/outputs/bundle/release/*.aab
+          if-no-files-found: error # سيفشل البناء إذا لم يجد الملف لضمان الجودة
