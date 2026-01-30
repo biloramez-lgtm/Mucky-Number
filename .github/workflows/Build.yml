@@ -2,7 +2,7 @@ name: Android Build
 
 on:
   push:
-    branches: [ "main", "master" ] # سيعمل على أي فرع رئيسي
+    branches: [ "main", "master" ]
 
 jobs:
   build:
@@ -19,8 +19,16 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Build with Gradle
+      - name: Build Release Bundle
+        # هنا نخبر النظام أن كل العمليات تتم داخل مجلد app
+        working-directory: app 
         run: |
-          # هذه الأوامر تعالج مشكلة المسار والصلاحيات معاً
           chmod +x gradlew
-          ./gradlew :app:bundleRelease --stacktrace
+          ./gradlew bundleRelease --stacktrace
+
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          # المسار الجديد بعد الدخول لمجلد app
+          path: app/app/build/outputs/bundle/release/*.aab
