@@ -2,16 +2,20 @@ name: Android Build
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ] # تأكد أن هذا هو اسم الفرع الخاص بك (main أو master)
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. سحب الكود من المستودع
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # 2. إعداد جافا (الإصدار 17 هو الأكثر استقراراً حالياً للأندرويد)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -19,16 +23,19 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Build Release Bundle
-        # هنا نخبر النظام أن كل العمليات تتم داخل مجلد app
-        working-directory: app 
+      # 3. إصلاح مشاكل الملف (الصلاحيات وتنسيق الأسطر) - مهم جداً للرفع من الهاتف
+      - name: Fix gradlew permissions and format
         run: |
+          sed -i 's/\r$//' gradlew
           chmod +x gradlew
-          ./gradlew bundleRelease --stacktrace
 
+      # 4. بناء ملف الـ AAB (Release Bundle)
+      - name: Build Release Bundle
+        run: ./gradlew bundleRelease
+
+      # 5. رفع الملف الناتج كـ Artifact لتحميله من الهاتف لاحقاً
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          # المسار الجديد بعد الدخول لمجلد app
-          path: app/app/build/outputs/bundle/release/*.aab
+          path: app/build/outputs/bundle/release/*.aab
