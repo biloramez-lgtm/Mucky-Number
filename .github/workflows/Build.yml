@@ -1,41 +1,44 @@
-name: Android Build
+name: Android Build Final Fix
 
 on:
   push:
-    branches: [ "main" ] # تأكد أن هذا هو اسم الفرع الخاص بك (main أو master)
-  pull_request:
     branches: [ "main" ]
+  workflow_dispatch: # يتيح لك تشغيل الأكشن يدوياً للتجربة
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. سحب الكود من المستودع
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. إعداد جافا (الإصدار 17 هو الأكثر استقراراً حالياً للأندرويد)
+      - name: Locate Gradlew File (Debug)
+        run: |
+          echo "Listing all files to find gradlew..."
+          find . -name "gradlew"
+          
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: gradle
 
-      # 3. إصلاح مشاكل الملف (الصلاحيات وتنسيق الأسطر) - مهم جداً للرفع من الهاتف
-      - name: Fix gradlew permissions and format
+      - name: Fix and Run Build
         run: |
-          sed -i 's/\r$//' gradlew
-          chmod +x gradlew
-
-      # 4. بناء ملف الـ AAB (Release Bundle)
-      - name: Build Release Bundle
-        run: ./gradlew bundleRelease
-
-      # 5. رفع الملف الناتج كـ Artifact لتحميله من الهاتف لاحقاً
-      - name: Upload AAB Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: app/build/outputs/bundle/release/*.aab
+          # البحث عن الملف وتخزين مساره في متغير
+          GRADLEW_PATH=$(find . -name "gradlew" | head -n 1)
+          
+          if [ -z "$GRADLEW_PATH" ]; then
+            echo "Error: gradlew file not found anywhere in the repository!"
+            exit 1
+          fi
+          
+          echo "Found gradlew at: $GRADLEW_PATH"
+          
+          # تنظيف نهايات الأسطر ومنح الصلاحيات
+          sed -i 's/\r$//' "$GRADLEW_PATH"
+          chmod +x "$GRADLEW_PATH"
+          
+          # تشغيل البناء من المسار الذي وجدناه فيه
+          DIR_PATH=$(dirname "$GRADLEW_PATH")
+          cd "$DIR_PATH" && ./gradlew bundleRelease
