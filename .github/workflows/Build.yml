@@ -19,11 +19,17 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      - name: Create gradlew from scratch
+        run: |
+          cat > gradlew << 'EOF'
+          #!/bin/bash
+          cd "$(dirname "$0")"
+          exec java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain "$@"
+          EOF
+          chmod +x gradlew
 
       - name: Build Release Bundle
-        run: ./gradlew bundleRelease
+        run: bash ./gradlew bundleRelease
 
       - name: Upload Release Bundle (AAB)
         uses: actions/upload-artifact@v4
