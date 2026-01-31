@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mucky Number</string>
+    <string name="play_button">لعب</string>
+    <string name="lucky_button">الحظ الجيد (100 عملة)</string>
+    <string name="reset_button">إعادة تعيين</string>
+</resources>
