@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="auto">
+        android:layout_marginTop="16dp">
 
         <Button
             android:id="@+id/playButton"
