@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace "com.muckynumber.game"
     compileSdk 35
 
     defaultConfig {
