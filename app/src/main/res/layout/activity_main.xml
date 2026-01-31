@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#f5f5f5">
+
+    <!-- Header Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="النقاط: 0"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/levelText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="المستوى: 1"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/coinsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="العملات: 0"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Game Image -->
+    <ImageView
+        android:id="@+id/gameImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"
+        android:scaleType="centerInside"
+        android:contentDescription="Game Image" />
+
+    <!-- Message Text -->
+    <TextView
+        android:id="@+id/messageText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="مرحباً بك في لعبة الأرقام الحظية!"
+        android:textSize="18sp"
+        android:textColor="#1976d2"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"
+        android:lineSpacingMultiplier="1.5" />
+
+    <!-- Buttons Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="auto">
+
+        <Button
+            android:id="@+id/playButton"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="لعب"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#4CAF50"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/luckyButton"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="الحظ الجيد (100 عملة)"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#FF9800"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="إعادة تعيين"
+            android:textSize="16sp"
+            android:backgroundTint="#f44336"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</LinearLayout>
