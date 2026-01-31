@@ -29,7 +29,9 @@ jobs:
           chmod +x gradlew
 
       - name: Build Release Bundle
-        run: bash ./gradlew bundleRelease
+        run: |
+          export _JAVA_OPTIONS="-Xmx4g"
+          bash ./gradlew bundleRelease --no-daemon
 
       - name: Upload Release Bundle (AAB)
         uses: actions/upload-artifact@v4
