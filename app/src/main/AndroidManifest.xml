@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:label="Mucky Number"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".MainActivity"
