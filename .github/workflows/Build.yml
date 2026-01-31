@@ -12,35 +12,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
           cache: gradle
 
-      - name: Download Gradle
-        run: |
-          cd $GITHUB_WORKSPACE
-          mkdir -p gradle/wrapper
-          curl -L https://services.gradle.org/distributions/gradle-8.10-bin.zip -o gradle-8.10-bin.zip
-          unzip -q gradle-8.10-bin.zip
-          mv gradle-8.10 .gradle-wrapper
-
-      - name: Recreate gradlew
-        run: |
-          cat > ./gradlew << 'EOF'
-          #!/bin/bash
-          APP_HOME="$(cd "$(dirname "$0")" && pwd)"
-          CLASSPATH="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
-          exec java -cp "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"
-          EOF
-          chmod +x ./gradlew
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Build Release Bundle
-        run: |
-          export GRADLE_USER_HOME=$GITHUB_WORKSPACE/.gradle
-          ./gradlew clean bundleRelease --stacktrace
+        run: ./gradlew clean bundleRelease --stacktrace
 
       - name: Upload Release Bundle (AAB)
         uses: actions/upload-artifact@v4
