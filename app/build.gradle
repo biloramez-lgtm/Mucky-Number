@@ -16,11 +16,11 @@ android {
     }
 
     buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+    release {
+        minifyEnabled false  // غيّر من true لـ false
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
+}
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
